@@ -17,11 +17,11 @@ const NewQuestion = () => {
   };
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: q => QuestionsService.createQuestion(q),
+    mutationFn: () => QuestionsService.createQuestion(data),
   });
 
   const onSave = () => {
-    mutate(data);
+    mutate();
   };
 
   return (

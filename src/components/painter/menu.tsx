@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 
 type Props = {
   setLineColor: (value: string) => void;
-  setLineWidth: (value: string) => void;
+  setLineWidth: (value: any) => void;
   clearCanvas: () => void;
 };
 const Menu: FC<Props> = ({ setLineColor, setLineWidth, clearCanvas }) => {
@@ -31,7 +31,7 @@ const Menu: FC<Props> = ({ setLineColor, setLineWidth, clearCanvas }) => {
         orientation='horizontal'
         minW='100'
         maxW={100}
-        onChange={e => setLineWidth(e.toString())}
+        onChange={e => setLineWidth(e)}
         min={3}
         max={30}
       >

@@ -2,8 +2,8 @@
 import { Box, Button, Radio, RadioGroup, Stack, Text, VStack } from '@chakra-ui/react';
 import React, { FC, useEffect, useState } from 'react';
 import { io } from 'src/config/sockets';
-import { Data } from 'src/services/activeUsers/type';
-import { QuestionData } from 'src/services/questions/type';
+import { Data } from 'src/services/account/type';
+import { DataActiveUser } from 'src/services/activeUsers/type';
 import { Roles } from '../home';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
   handleBack: () => void;
   handleStart: () => void;
   setMinuts: (v: string) => void;
-  currentUser: Data | undefined;
+  currentUser: DataActiveUser | undefined;
   isStart: boolean;
   minutes: string;
 };

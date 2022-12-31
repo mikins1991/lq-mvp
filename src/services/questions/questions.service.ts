@@ -15,7 +15,7 @@ export const QuestionsService = {
       method: 'GET',
     });
   },
-  async createQuestion(data) {
+  async createQuestion(data: any) {
     return await request<any>({
       url: getQuestionsUrl(``),
       method: 'POST',

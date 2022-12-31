@@ -3,29 +3,28 @@ import { Box } from '@chakra-ui/react';
 import Menu from './menu';
 
 const PainterApp = () => {
-  const canvasRef = useRef(null);
-  const ctxRef = useRef(null);
+  const canvasRef: { current: any } = useRef(null);
+  const ctxRef: { current: any } = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [lineWidth, setLineWidth] = useState(5);
   const [lineColor, setLineColor] = useState('black');
-  const [lineOpacity, setLineOpacity] = useState(1);
 
   // Initialization when the component
   // mounts for the first time
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current as any;
     const ctx = canvas.getContext('2d');
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.globalAlpha = lineOpacity;
     ctx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
     ctxRef.current = ctx;
     // setCtx(ctx);
-  }, [lineColor, lineOpacity, lineWidth]);
+  }, [lineColor, lineWidth]);
 
   // Function for starting the drawing
-  const startDrawing = e => {
+  const startDrawing = (e: any) => {
+    if (!ctxRef.current) return;
     ctxRef.current.beginPath();
     ctxRef.current.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
     setIsDrawing(true);
@@ -37,7 +36,7 @@ const PainterApp = () => {
     setIsDrawing(false);
   };
 
-  const draw = e => {
+  const draw = (e: any) => {
     if (!isDrawing) {
       return;
     }
@@ -61,12 +60,7 @@ const PainterApp = () => {
       background={'white'}
     >
       <Box w='full' h='full' border='1pxsolid #808080' position={'relative'} background='white'>
-        <Menu
-          setLineColor={setLineColor}
-          setLineWidth={setLineWidth}
-          setLineOpacity={setLineOpacity}
-          clearCanvas={clearCanvas}
-        />
+        <Menu setLineColor={setLineColor} setLineWidth={setLineWidth} clearCanvas={clearCanvas} />
         <canvas
           onMouseDown={startDrawing}
           onMouseUp={endDrawing}

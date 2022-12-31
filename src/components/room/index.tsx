@@ -3,8 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { NextRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { io } from 'src/config/sockets';
+import { Data } from 'src/services/account/type';
 import { ActiveUsersService } from 'src/services/activeUsers/activeUsers.service';
-import { Data } from 'src/services/activeUsers/type';
+import { DataActiveUser } from 'src/services/activeUsers/type';
 import { QuestionData } from 'src/services/questions/type';
 import { Roles } from '../home';
 import MainPlayer from './game/main-player';
@@ -22,7 +23,7 @@ const RoomPage: FC<Props> = ({ user, roomId, router }) => {
   const userRoles = user?.attributes?.userRoles;
 
   const [users, setUsers] = useState<Data[]>([]);
-  const [currentUser, setCurrentUser] = useState<Data>();
+  const [currentUser, setCurrentUser] = useState<DataActiveUser>();
   const [question, setQuestion] = useState<QuestionData>();
   const [isStart, setIsStart] = useState<boolean>(false);
   const [isGame, setIsGame] = useState<boolean>(false);

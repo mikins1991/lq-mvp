@@ -30,14 +30,13 @@ const Room = () => {
   useEffect(() => {
     if (!router.isReady) return; // Checking if the token has been fetched from the URL.
     try {
-      const payload = jwt.verify(token, SECRET); // Verifying the token using the secret
+      const payload = jwt.verify(token, SECRET) as { room: string; id: string }; // Verifying the token using the secret
       setRoomId(payload.room);
       setId(payload.id);
       refetch();
       setDone('done'); // granting access to the chat page
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('error', error.message);
       router.push('/'); // redirecting the user to the home page if an error occured
     }
   }, [token, done]);

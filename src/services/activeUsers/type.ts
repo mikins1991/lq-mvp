@@ -10,7 +10,7 @@ export interface IAccount {
   socketid: string;
 }
 
-export interface Data {
+export interface DataActiveUser {
   id: number;
   attributes: IAccount;
 }
@@ -27,6 +27,6 @@ export interface Meta {
 }
 
 export interface ActiveUsersResponce {
-  data: Data[];
+  data: DataActiveUser[];
   meta: Meta;
 }
