@@ -65,6 +65,9 @@ const PainterApp = () => {
           onMouseDown={startDrawing}
           onMouseUp={endDrawing}
           onMouseMove={draw}
+          onPointerDown={startDrawing}
+          onPointerUp={endDrawing}
+          onPointerMove={draw}
           ref={canvasRef}
           width={'770'}
           height={`300px`}

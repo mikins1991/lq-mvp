@@ -65,10 +65,11 @@ const RoomPage: FC<Props> = ({ user, roomId, router }) => {
   );
 
   useEffect(() => {
-    if (!activeUsers || !activeUsers.data.length) return;
+    if (!activeUsers || !activeUsers.data.length || !user || !user.attributes || !user.attributes.userId)
+      return;
     setCurrentUser(activeUsers.data.find(item => item.attributes.userId === user.attributes.userId));
     setUsers(activeUsers.data);
-  }, [activeUsers]);
+  }, [activeUsers, user]);
 
   useEffect(() => {
     if (!user.id) return;
@@ -128,7 +129,7 @@ const RoomPage: FC<Props> = ({ user, roomId, router }) => {
         currentUser?.attributes.userRoles === Roles.mainPlayer ? (
           question && <MainPlayer question={question} timeBefore={timeBefore} nextRound={handleNextRound} />
         ) : (
-          <Player timeBefore={timeBefore} nextRound={handleNextRound} />
+          <Player timeBefore={timeBefore} />
         )
       ) : (
         <StartGamePage

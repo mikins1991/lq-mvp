@@ -1,13 +1,12 @@
-import { Box, Button, Text } from '@chakra-ui/react';
+import { Box, Button, Text, Textarea } from '@chakra-ui/react';
 import React, { FC, useState } from 'react';
 import { QuestionData } from 'src/services/questions/type';
-import PainterApp from '@/components/painter/painter';
 
 type Props = { question: QuestionData; timeBefore: number; nextRound: () => void };
 const MainPlayer: FC<Props> = ({ question, timeBefore, nextRound }) => {
   const [isOpenAnswer, setOpenAnswer] = useState(false);
   return (
-    <Box>
+    <Box w='full'>
       <Box display={'flex'} alignItems='center' justifyContent={'space-evenly'}>
         {!!timeBefore && (
           <Text fontSize={'3xl'} fontWeight='bold' w={'20'}>
@@ -39,8 +38,9 @@ const MainPlayer: FC<Props> = ({ question, timeBefore, nextRound }) => {
             </Box>
           ))}
       </Box>
-      <Box display={'flex'}>
-        <PainterApp />
+      <Box display={'flex'} h='full'>
+        <Textarea h='80%' fontSize={'4xl'} />
+        {/* <PainterApp /> */}
       </Box>
     </Box>
   );

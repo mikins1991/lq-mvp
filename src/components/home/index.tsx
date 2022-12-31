@@ -63,8 +63,7 @@ const HomePage = (props: Props) => {
     enabled: false,
   });
 
-  const handleConnect = () => {
-    refetch();
+  useEffect(() => {
     if (dataRoom && dataRoom.data.length) {
       const roomId = dataRoom.data[0].attributes.roomId;
       const id = uuidv4();
@@ -72,7 +71,7 @@ const HomePage = (props: Props) => {
         id,
         room: roomId,
       };
-      const SECRET = process.env.NEXT_PUBLIC_SECRET_JWT || 'eeesddsd'; //JWT secret
+      const SECRET = 'eeesddsd';
       const token = jwt.sign(account, SECRET); // Creates the Token
 
       const data = {
@@ -86,8 +85,11 @@ const HomePage = (props: Props) => {
       };
 
       onSubmitAddPlayer(data);
-      // onSocketConnect(username, roomId.toString());
     }
+  }, [dataRoom]);
+
+  const handleConnect = () => {
+    refetch();
   };
 
   const handleNewGame = () => {
@@ -113,22 +115,6 @@ const HomePage = (props: Props) => {
     onSubmit(data);
     // onSocketConnect(username, roomId.toString());
   };
-
-  // const onSocketConnect = (username: string, room: string) => {
-  //   if (username && room) {
-  //     socket.emit('join', { username, room }, (error: any) => {
-  //       if (error) {
-  //         // setError(error)
-  //         alert(error);
-  //       } else {
-  //         socket.on('welcome', data => {
-  //           // props.onJoinSuccess(data);
-  //           console.log('file: index.tsx:138  socket.on  welcome', data);
-  //         });
-  //       }
-  //     });
-  //   }
-  // };
 
   return (
     <VStack spacing={'10'} background={'background'} p='4' w={['full', null, null, '3xl']}>

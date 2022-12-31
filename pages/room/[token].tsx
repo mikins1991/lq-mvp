@@ -9,7 +9,7 @@ import PageLayout from '@/components/page-layout';
 
 const Room = () => {
   const router = useRouter();
-  const SECRET = process.env.SECRET_JWT || 'eeesddsd';
+  const SECRET = 'eeesddsd';
   const [done, setDone] = useState('');
   const [id, setId] = useState('');
   const [user, setUser] = useState<Data>({} as Data);
