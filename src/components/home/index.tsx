@@ -110,6 +110,8 @@ const HomePage = (props: Props) => {
     onSubmit(data);
   }, []);
 
+  const handleChangeName = useCallback((i: string) => setName(i), []);
+
   return (
     <VStack spacing={'10'} background={'background'} p='4' w={['full', null, null, '3xl']}>
       <Heading>Начни игру</Heading>
@@ -124,11 +126,7 @@ const HomePage = (props: Props) => {
             <VStack spacing={'4'}>
               <FormControl isRequired>
                 <FormLabel>Имя</FormLabel>
-                <Input
-                  placeholder='name'
-                  value={username}
-                  onChange={i => useCallback(() => setName(i.target.value), [])}
-                />
+                <Input placeholder='name' value={username} onChange={i => handleChangeName(i.target.value)} />
               </FormControl>
 
               {/* <FormControl>
@@ -168,7 +166,7 @@ const HomePage = (props: Props) => {
             <VStack spacing={'4'}>
               <FormControl isRequired>
                 <FormLabel>Имя</FormLabel>
-                <Input placeholder='name' value={username} onChange={i => setName(i.target.value)} />
+                <Input placeholder='name' value={username} onChange={i => handleChangeName(i.target.value)} />
               </FormControl>
 
               <HStack w={'full'}>
