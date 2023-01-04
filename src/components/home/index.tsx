@@ -110,7 +110,7 @@ const HomePage = (props: Props) => {
     onSubmit(data);
   }, []);
 
-  const handleChangeName = useCallback((i: string) => setName(i), []);
+  const handleChangeName = useCallback((i: any) => setName(i.target.value), []);
 
   return (
     <VStack spacing={'10'} background={'background'} p='4' w={['full', null, null, '3xl']}>
@@ -126,7 +126,7 @@ const HomePage = (props: Props) => {
             <VStack spacing={'4'}>
               <FormControl isRequired>
                 <FormLabel>Имя</FormLabel>
-                <Input placeholder='name' value={username} onChange={i => handleChangeName(i.target.value)} />
+                <Input placeholder='name' value={username} onChange={handleChangeName} />
               </FormControl>
 
               {/* <FormControl>
@@ -166,7 +166,7 @@ const HomePage = (props: Props) => {
             <VStack spacing={'4'}>
               <FormControl isRequired>
                 <FormLabel>Имя</FormLabel>
-                <Input placeholder='name' value={username} onChange={i => handleChangeName(i.target.value)} />
+                <Input placeholder='name' value={username} onChange={handleChangeName} />
               </FormControl>
 
               <HStack w={'full'}>
