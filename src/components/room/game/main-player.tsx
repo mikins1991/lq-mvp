@@ -1,10 +1,13 @@
 import { Box, Button, Text, Textarea } from '@chakra-ui/react';
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { QuestionData } from 'src/services/questions/type';
 
 type Props = { question: QuestionData; timeBefore: number; nextRound: () => void };
 const MainPlayer: FC<Props> = ({ question, timeBefore, nextRound }) => {
   const [isOpenAnswer, setOpenAnswer] = useState(false);
+
+  const handleClick = useCallback(() => setOpenAnswer(true), []);
+
   return (
     <Box w='full'>
       <Box display={'flex'} alignItems='center' justifyContent={'space-evenly'}>
@@ -14,7 +17,7 @@ const MainPlayer: FC<Props> = ({ question, timeBefore, nextRound }) => {
           </Text>
         )}
         <Box>
-          {question.id && (
+          {!!question.id && (
             <Text fontSize={'3xl'} fontWeight='bold'>
               {question.attributes.question}
             </Text>
@@ -32,7 +35,7 @@ const MainPlayer: FC<Props> = ({ question, timeBefore, nextRound }) => {
             </Box>
           ) : (
             <Box>
-              <Button variant={'secondary'} onClick={() => setOpenAnswer(true)}>
+              <Button variant={'secondary'} onClick={handleClick}>
                 Показать ответ
               </Button>
             </Box>

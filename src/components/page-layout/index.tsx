@@ -32,7 +32,6 @@ type PageProps = {
 
 const MotionContainer = motion<ContainerProps>(Container);
 
-// const name = 'Blüm Technology Group';
 const titleDefault = 'Loud Question';
 const descriptionDefault = 'Game';
 

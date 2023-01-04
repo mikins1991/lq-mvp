@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Button,
   FormControl,
@@ -6,10 +5,6 @@ import {
   Heading,
   HStack,
   Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   PinInput,
   PinInputField,
   Tab,
@@ -22,7 +17,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { RoomService } from '../../services/room/room.service';
 import { useAccounts } from './useAccounts';
@@ -36,7 +31,7 @@ export enum Roles {
 
 const HomePage = (props: Props) => {
   const [username, setName] = useState('');
-  const [role, setRole] = useState('mainPlayer');
+  const role = 'mainPlayer';
   const [roomCode, setCode] = useState('');
 
   const router = useRouter();
@@ -54,14 +49,14 @@ const HomePage = (props: Props) => {
     router.push(`room/${dataPlayer.attributes.token}`);
   }, [dataPlayer]);
 
-  const {
-    data: dataRoom,
-    isLoading: isLoadingRoom,
-    refetch,
-  } = useQuery(['checkRoom', roomCode], () => RoomService.getRoomById(roomCode), {
-    refetchOnWindowFocus: false,
-    enabled: false,
-  });
+  const { data: dataRoom, refetch } = useQuery(
+    ['checkRoom', roomCode],
+    () => RoomService.getRoomById(roomCode),
+    {
+      refetchOnWindowFocus: false,
+      enabled: false,
+    }
+  );
 
   useEffect(() => {
     if (dataRoom && dataRoom.data.length) {
@@ -88,11 +83,11 @@ const HomePage = (props: Props) => {
     }
   }, [dataRoom]);
 
-  const handleConnect = () => {
+  const handleConnect = useCallback(() => {
     refetch();
-  };
+  }, []);
 
-  const handleNewGame = () => {
+  const handleNewGame = useCallback(() => {
     const roomId = Math.trunc(Math.random() * 100000);
     const id = uuidv4();
     let account = {
@@ -113,8 +108,7 @@ const HomePage = (props: Props) => {
     };
 
     onSubmit(data);
-    // onSocketConnect(username, roomId.toString());
-  };
+  }, []);
 
   return (
     <VStack spacing={'10'} background={'background'} p='4' w={['full', null, null, '3xl']}>
@@ -130,7 +124,11 @@ const HomePage = (props: Props) => {
             <VStack spacing={'4'}>
               <FormControl isRequired>
                 <FormLabel>Имя</FormLabel>
-                <Input placeholder='name' value={username} onChange={i => setName(i.target.value)} />
+                <Input
+                  placeholder='name'
+                  value={username}
+                  onChange={i => useCallback(() => setName(i.target.value), [])}
+                />
               </FormControl>
 
               {/* <FormControl>

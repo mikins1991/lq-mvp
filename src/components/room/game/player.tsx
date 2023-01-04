@@ -9,11 +9,6 @@ const Player: FC<Props> = ({ timeBefore }) => {
         <Text fontSize={'3xl'} fontWeight='bold' w={'20'}>
           {timeBefore}
         </Text>
-        {/* {timeBefore === 0 && (
-          <Button variant={'outline'} onClick={nextRound}>
-            Следующий раунд
-          </Button>
-        )} */}
       </Box>
       <Box display={'flex'} h='full'>
         <Textarea h='80%' fontSize={'4xl'} />

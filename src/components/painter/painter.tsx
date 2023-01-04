@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import Menu from './menu';
 
@@ -19,7 +19,6 @@ const PainterApp = () => {
     ctx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
     ctxRef.current = ctx;
-    // setCtx(ctx);
   }, [lineColor, lineWidth]);
 
   // Function for starting the drawing
@@ -45,9 +44,10 @@ const PainterApp = () => {
     ctxRef.current.stroke();
   };
 
-  const clearCanvas = () => {
-    ctxRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-  };
+  const clearCanvas = useCallback(
+    () => ctxRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height),
+    []
+  );
 
   return (
     <Box

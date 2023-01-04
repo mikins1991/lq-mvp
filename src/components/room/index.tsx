@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { NextRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { io } from 'src/config/sockets';
 import { Data } from 'src/services/account/type';
 import { ActiveUsersService } from 'src/services/activeUsers/activeUsers.service';
@@ -10,7 +10,6 @@ import { QuestionData } from 'src/services/questions/type';
 import { Roles } from '../home';
 import MainPlayer from './game/main-player';
 import Player from './game/player';
-// import { RoomService } from 'src/services/room/room.service';
 import StartGamePage from './startGamePage';
 
 type Props = {
@@ -18,6 +17,24 @@ type Props = {
   roomId: string | number;
   router: NextRouter;
 };
+
+type PropsGames = {
+  question: QuestionData | undefined;
+  timeBefore: number;
+  handleNextRound: () => void;
+  currentUser: DataActiveUser | undefined;
+};
+
+const Game: FC<PropsGames> = ({ currentUser, question, timeBefore, handleNextRound }) => {
+  if (!question) return <>No questions</>;
+
+  return currentUser?.attributes.userRoles === Roles.mainPlayer ? (
+    <MainPlayer question={question} timeBefore={timeBefore} nextRound={handleNextRound} />
+  ) : (
+    <Player timeBefore={timeBefore} />
+  );
+};
+
 const RoomPage: FC<Props> = ({ user, roomId, router }) => {
   const username = user?.attributes?.username;
   const userRoles = user?.attributes?.userRoles;
@@ -102,7 +119,7 @@ const RoomPage: FC<Props> = ({ user, roomId, router }) => {
     });
   }, [user]);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     deleteUser()
       .then(async () => {
         io.emit('kick', { socketid: currentUser?.attributes.socketid }, (error: any) => {
@@ -112,25 +129,26 @@ const RoomPage: FC<Props> = ({ user, roomId, router }) => {
         // eslint-disable-next-line no-restricted-globals
       })
       .catch();
-  };
+  }, []);
 
-  const handleStart = () => {
+  const handleStart = useCallback(() => {
     setIsGame(true);
     onRunTimer();
-  };
+  }, []);
 
-  const handleNextRound = () => {
+  const handleNextRound = useCallback(() => {
     setIsGame(false);
-  };
+  }, []);
 
   return (
     <Box background={'background'} display={'flex'} p='4' w={['full', null, null, '3xl']} h='100vh'>
       {isGame ? (
-        currentUser?.attributes.userRoles === Roles.mainPlayer ? (
-          question && <MainPlayer question={question} timeBefore={timeBefore} nextRound={handleNextRound} />
-        ) : (
-          <Player timeBefore={timeBefore} />
-        )
+        <Game
+          currentUser={currentUser}
+          question={question}
+          timeBefore={timeBefore}
+          handleNextRound={handleNextRound}
+        />
       ) : (
         <StartGamePage
           handleBack={handleBack}
@@ -138,7 +156,7 @@ const RoomPage: FC<Props> = ({ user, roomId, router }) => {
           currentUser={currentUser}
           roomId={roomId}
           isStart={isStart}
-          handleStart={() => handleStart()}
+          handleStart={handleStart}
           setMinuts={setMinuts}
           minutes={minuts}
         />
