@@ -1,3 +1,5 @@
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mikins1991_lq-mvp&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mikins1991_lq-mvp)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
